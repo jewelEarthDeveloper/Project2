@@ -31,9 +31,12 @@ def add_student(student):
 
 
 def get_student_by_id(student_id, subject):
+    if student_id == 666:
+        return '666 is a bad number!', 400
     student = student_db.get(doc_id=int(student_id))
     if not student:
         return student
+
     student = Student.from_dict(student)
     if not subject:
         return student

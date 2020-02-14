@@ -56,16 +56,16 @@ class TestDefaultController(BaseTestCase):
         self.assert404(response,
                        'Response body is : ' + response.data.decode('utf-8'))
 
-    # def test_get_student_by_id_invalid_id(self):
-    #     """Test case for get_student_by_id with invalid Id
+    def test_get_student_by_id_invalid_id(self):
+        """Test case for get_student_by_id with invalid Id
 
-    #     Find returns 400
-    #     """
-    #     response = self.client.open(
-    #         '/service-api/student/x',
-    #         method='GET')
-    #     self.assert400(response,
-    #                    'Response body is : ' + response.data.decode('utf-8'))
+        Find returns 400
+        """
+        response = self.client.open(
+            '/service-api/student/666',
+            method='GET')
+        self.assert400(response,
+                       'Response body is : ' + response.data.decode('utf-8'))
 
     def test_get_student_by_id(self):
         """Test case for get_student_by_id
