@@ -1,0 +1,3 @@
+{
+    "python.autoComplete.extraPaths": ["./python-flask-server-generated"]
+}
