@@ -95,6 +95,13 @@ class TestDefaultController(BaseTestCase):
             '/service-api/student/{student_id}'.format(student_id=student_id),
             method='DELETE')
 
+    def test_list_students(self):
+        """Test case for list_students
+
+        List all students
+        """
+        query_string = [('last_name', 'last_name_example')]
+
 
 if __name__ == '__main__':
     import unittest

@@ -54,3 +54,18 @@ def get_student_by_id(student_id, subject=None):  # noqa: E501
         return res
     return 'Not Found', 404
 
+
+def list_students(last_name=None):  # noqa: E501
+    """List all students
+
+    queries students # noqa: E501
+
+    :param last_name: part of last name of students to return
+    :type last_name: str
+
+    :rtype: Student
+    """
+    res = student_service.list_students(last_name)
+    if res:
+        return res
+    return 'Not Found', 404
