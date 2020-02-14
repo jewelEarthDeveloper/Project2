@@ -56,16 +56,17 @@ class TestDefaultController(BaseTestCase):
         #     method='DELETE')
         # self.assert404(response,
         #                'Response body is : ' + response.data.decode('utf-8'))
-    def test_get_student_by_id(self):
-        """Test case for get_student_by_id
+    
+    # def test_get_student_by_id(self):
+    #     """Test case for get_student_by_id
 
-        Find student by ID
-        """
-        response = self.client.open(
-            '/service-api/student/{student_id}'.format(student_id=789),
-            method='GET')
-        self.assert200(response,
-                       'Response body is : ' + response.data.decode('utf-8'))
+    #     Find student by ID
+    #     """
+    #     response = self.client.open(
+    #         '/service-api/student/{student_id}'.format(student_id=789),
+    #         method='GET')
+    #     self.assert200(response,
+    #                    'Response body is : ' + response.data.decode('utf-8'))
 
 
 if __name__ == '__main__':
