@@ -27,6 +27,7 @@ class TestDefaultController(BaseTestCase):
             method='POST',
             data=json.dumps(body),
             content_type='application/json')
+
         self.assert200(response,
                        'Response body is : ' + response.data.decode('utf-8'))
         self.assertTrue(response.is_json)
@@ -45,28 +46,55 @@ class TestDefaultController(BaseTestCase):
             data=json.dumps(body),
             content_type='application/json')
         student_id = (response.json)
-        # response = self.client.open(
-        #     '/service-api/student/{student_id}'.format(student_id=student_id),
-        #     method='DELETE')
-        # self.assert200(response,
-        #                'Response body is : ' + response.data.decode('utf-8'))
-        # 
-        # response = self.client.open(
-        #     '/service-api/student/{student_id}'.format(student_id=-1),
-        #     method='DELETE')
-        # self.assert404(response,
-        #                'Response body is : ' + response.data.decode('utf-8'))
-    
-    # def test_get_student_by_id(self):
-    #     """Test case for get_student_by_id
+        response = self.client.open(
+            '/service-api/student/{student_id}'.format(student_id=student_id),
+            method='DELETE')
+        self.assert200(response,
+                       'Response body is : ' + response.data.decode('utf-8'))        
+        response = self.client.open(
+            '/service-api/student/{student_id}'.format(student_id=-1),
+            method='DELETE')
+        self.assert404(response,
+                       'Response body is : ' + response.data.decode('utf-8'))
 
-    #     Find student by ID
-    #     """
-    #     response = self.client.open(
-    #         '/service-api/student/{student_id}'.format(student_id=789),
-    #         method='GET')
-    #     self.assert200(response,
-    #                    'Response body is : ' + response.data.decode('utf-8'))
+    def test_get_student_by_id_invalid_id(self):
+        """Test case for get_student_by_id with invalid Id
+
+        Find returns 400
+        """
+        response = self.client.open(
+            '/service-api/student/xxx',
+            method='GET')
+        self.assert400(response,
+                       'Response body is : ' + response.data.decode('utf-8'))
+
+    def test_get_student_by_id(self):
+        """Test case for get_student_by_id
+
+        Find student by ID
+        """
+        #arrange
+        body = Student()
+        body.first_name = names.get_first_name()
+        body.last_name = names.get_last_name()
+        body.grades = {'math': 8, 'history': 9}
+        response = self.client.open(
+            '/service-api/student',
+            method='POST',
+            data=json.dumps(body),
+            content_type='application/json')
+        student_id = (response.json)
+        #act
+        response = self.client.open(
+            '/service-api/student/{student_id}'.format(student_id=student_id),
+            method='GET')
+        #assert
+        self.assert200(response,
+                        'Response body is : ' + response.data.decode('utf-8'))
+        #clean up
+        response = self.client.open(
+            '/service-api/student/{student_id}'.format(student_id=student_id),
+            method='DELETE')
 
 
 if __name__ == '__main__':
