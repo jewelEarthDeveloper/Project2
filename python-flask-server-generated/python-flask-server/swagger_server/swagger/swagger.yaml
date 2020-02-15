@@ -37,6 +37,7 @@ paths:
         "409":
           description: "already exists"
       x-swagger-router-controller: "swagger_server.controllers.default_controller"
+  /student/:
     get:
       summary: "List all students"
       operationId: "list_students"
@@ -48,6 +49,7 @@ paths:
       - name: "last_name"
         in: "query"
         description: "part of last name of students to return"
+        required: false
         type: "string"
       responses:
         "200":
