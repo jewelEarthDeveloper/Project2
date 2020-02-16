@@ -16,6 +16,9 @@ student_db = TinyDB(db_file_path)
 
 
 def add_student(student):
+    if not student or not student.first_name or not student.last_name:
+        return 'invalid input', 405
+
     queries = []
     query = Query()
     queries.append(query.first_name == student.first_name)
@@ -36,9 +39,10 @@ def get_student_by_id(student_id, subject):
     student = student_db.get(doc_id=int(student_id))
     if not student:
         return student
-
     student = Student.from_dict(student)
     if not subject:
+        return student
+    if subject in student.grades:
         return student
 
 
@@ -52,4 +56,4 @@ def delete_student(student_id):
 def list_students(last_name):
     query = Query()
     res = student_db.search( query.last_name == last_name)
-    return res
+    return res[0]

@@ -72,6 +72,11 @@ paths:
         required: true
         type: "integer"
         format: "int64"
+      - name: "subject"
+        in: "query"
+        description: "a subject they are studying"
+        required: false
+        type: "string"
       responses:
         "200":
           description: "successful operation"
