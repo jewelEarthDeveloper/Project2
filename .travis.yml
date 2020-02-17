@@ -18,6 +18,10 @@ before_script:
 - npm --version
 - node_modules/.bin/newman --version
 script:
+- echo "docker user name"
+- echo $DOCKER_USER
+- echo "docker password"
+- echo $DOCKER_PASS
 - python -m unittest discover
 - docker build -t swagger-spring-example:1.0.0 .
 - docker run --name example_api -d -t -p 127.0.0.1:8080:8080 swagger-spring-example:1.0.0
