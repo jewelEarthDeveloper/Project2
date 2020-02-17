@@ -28,11 +28,7 @@ script:
 - docker logs example_api
 - node_modules/.bin/newman run ./postmantests/postman_collection.json -e ./postmantests/postman_environment.json
 after_success:
-  - docker login -u $DOCKER_USER -p $DOCKER_PASS
+  - docker login -u paulspencer -p IP7WaEgxJopwqwXpSm4FX
   - docker build paulspencer/lab2 -t
   - docker tag paulspencer/lab2 paulspencer/lab2
   - docker push paulspencer/lab2
-  env:
-    global:
-      - DOCKER_USER=paulspencer
-      - DOCKER_PASS=IP7WaEgxJopwqwXpSm4FX
