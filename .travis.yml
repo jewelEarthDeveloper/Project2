@@ -28,11 +28,7 @@ script:
 - docker logs example_api
 - node_modules/.bin/newman run ./postmantests/postman_collection.json -e ./postmantests/postman_environment.json
 after_success:
-- docker login -u $DOCKER_USER -p $DOCKER_PASS
-- docker build paulspencer/lab2 -t
-- docker tag paulspencer/lab2 paulspencer/lab2
-- docker push paulspencer/lab2
-env:
-  global:
-  - secure: SjQ0aULJRQj/WkRqt02+hYquLRtnQXTU6HCrx4CZq62/okhiSK3NlQPUFT6z5fY0eDso3o6lxs7BmLCPBISqkhDNVkSGRDrCLQ+RO+Fuh65p5jnG24jB2Qi9AluAJ+59+OS7R/TWiKqSB9xKaxopdFugnku2GRKeyMmposJyh+8WKB9XIpyCuc2XWjejhUL8FEK3Tkc8jkv8cNTGH3xFMi2SVOvqVG4GxoImisqZT6uXlFkNtnZY0EcjvXsdrv8Fl2mDL2IbsfeXfMswMwMSJGirYK3C8rapEWZTE4tRIxFI7CED9TG/RRTvIoWLPSQEo35qkVObIJip2prOSSbAEE1QDFI4DrM911+A4iCsN+VFBBvF9Yd3lrD7yWXHU75isSkp0SaCeVMQz2wu45rFAP7CTNjsVM+ZNE6sWK101QgSI9QSE/Db8EHShxQj2nyXAqPCj25PBNDbcAuC9dNsAgPPJ5wclqNpzm2S2EaZmtLZzedbEK5yWVP7re3L332vxFBdXajW5Dyztu5wJn6zvOYClD7+u+21K/gHVm9gdsxjhkfEJz3oFqwJJYVK4vjMqvEOhQmuIyX4dynxmf+Un5ejD7FnswR35zx3hrBZrWn12eTnkN9Bwn0goQEqecrVGEL1MRi/w7SoVKKwLphSVH2Vgk9NjZlWm6jX4S+Hivw=
-  - secure: F+wdnxQjLrMngv1tvumpqFxq3yzE3W8x0+5BlBmDsU3J+viFqI36XITccuC/pWcn/ugcWw+PyNP7uuhiyNReaaN9AaaFQkheX4Ju1R8sHXSylCWnJcbI3tow/Ae9Lo8MLT333Am3sTgDsRCIs9Y8+Rm9udJCGVsqfIDfZdR6IRAF/X522O9sfjStIaBhNpejXDQIpLu0gx0nU90WMpwl1GFpNwNFtue8zlrb/ztt44M3q5jAkB+nXmnySH3HsZ2CmQ3fRspZs2JpyZqzqIh3ZnJSWzR5RVuSxWzfKMigrhfQr/jfUuwZs409OUkJB8IcAiDBRn7kGhlkgaAYypSY0uYziPFseyqslMyTCc6ogKhSxQdXOudU+QhJekXocHXL8BiPlHx8iTMT0ukJi9/XTVUULUvo4XCGsyaKr2OwvNHNKJMct2CcsXIckO10A2abIO7BEJH2EhKM8ou3tppXcp0vjrig+QMMK9xDNotcFr0a27G3+xcagdxUz1TvaXRTX/4k/cB2O6z2EPo84utRzaCqWkNdg+EYpC7Ltjx2m0nzXm02RGZip9caLBEoHCUmC8Fphlhm4vn5ySADv1SBcdVTaAPey4CIQHWKH5O/M/0LoIMnoY3f7GNLSzYlyoWu/eykKeSXPnft12ZrVWeb7P3XKv6tjAxPAhOPFb99ElM=
+  - docker login -u paulspencer -p IP7WaEgxJopwqwXpSm4FX
+  - docker build -t paulspencer/lab2 .
+  - docker tag paulspencer/lab2 paulspencer/lab2
+  - docker push paulspencer/lab2
