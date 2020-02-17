@@ -1,12 +1,41 @@
+sudo: required 
+services:
+  - docker
 language: python
 python:
-  - '3.4'
-  - '3.5'
-install: 
-  - pip install -r ./python-flask-server-generated/python-flask-server/requirements.txt
-script: 
-  - pytest 
+  - '3.6'
+before_install:
+  - docker version
+  - docker info
+install:
+    - npm install newman
+    - pip install -r ./python-flask-server-generated/python-flask-server/requirements.txt
+    - pip install -r ./python-flask-server-generated/python-flask-server/test-requirements.txt
+    - pip install nose
+    - pip install Flask-Testing
+before_script:
+    - node --version
+    - npm --version
+    - node_modules/.bin/newman --version  
+    
+script:
+- python -m unittest discover
+- docker build -t swagger-spring-example:1.0.0 .
+- docker run --name example_api -d -t -p 127.0.0.1:8080:8080 swagger-spring-example:1.0.0
+- docker ps
+- count=0 && until $(curl --output /dev/null --silent --head --fail http://localhost:8080);
+  do printf '.' && sleep 3 && count=$((count+1)) && if [ $count -gt 5 ]; then break;
+  fi; done
+- docker logs example_api
+- node_modules/.bin/newman run ./python-flask-server-generated/python-flask-server/postmantests/postman_collection.json -e ./python-flask-server-generated/python-flask-server/postmantests/postman_environment.json
+
+after_success:
+  - docker login -u $DOCKER_USER -p $DOCKER_PASS
+  - docker build paulspencer/lab2 -t 
+  - docker tag paulspencer/lab2 paulspencer/lab2
+  - docker push paulspencer/lab2
 env: 
   global:
   - secure: pxlvXBXnJpTnARYPgd/WFf3nNf1swnD484BpMXFqqVeOdOVtWcxkwX5yWDcd8BEpNwD8ARew33kBLY7EevqExmO1eM6UcIxCaQ/exNYN52I/mg72L7QoeeA+bY76l1fCMaq7+SOdJWqphMnru7V6nGJD7Xu2sCmXdCldUx/4RSYIG41yTvciAC1mw9+SFRcg36TD+HzspUhtsPoJNqgLmnCeLErPbAktqmlEYIx9NzshErBIWWJjtCWzYHSFEdasYUFU/LXAxplt5rtu+HHo+s0DP6rweACaYXVhNDXkFHD9NitcDBU2ESo6Ez7xTUDsZDFAKdDCS4yYJKjM8bLhI/5wWNZDoWCkZb9cdvuIvfLDsdaykkXs30oO5Mob83yq3TiJlHOJtnGslYlSqanbojRn14XLPRxIKtbo+v4175PP+aQPjh4t66bmAz9EF74EpXnf7gfun6H7XSZ2nBvn5QV1a9XbsPmy90cyFoI1pcd+Dp8a4VhHOGmK3JQEPW1esBcR+CEcPbfwXJidrubMDH3IsuUGYljMbPqTQ5/6sq7/83xu/RcQ6AT3TlTxk+WrbEPlleBLD6Naq+EYaYdWVvIkyZqOfEkKgTGTJOOPsRF3DHpbAEvq2HCaiUfKk7ML+ZrvWZsmYugdby6KfQ5V0AomgKccLU25dZX+QmSiK6w=
   - secure: jrY1k9aHtHN0Bj2s01laILhgQWs8nxebpyZju2Zo4HvP45tL9dlfXI1o8pCKuzPHXIBtSkFkDCcHP1dvL7Hcd8+Wpfk9CIatNzOpcYMfLVRSnmn+q1U/z/fC/jXHY8WZEaPvN31fSEH/Ski2SnAKOrAGB71lRPqfLBmlG+dXEkz1uagaaRz+0eCxlRPy5j5ftrwjNq7i5eWWsauQ1E3ph+CgyGqbue8R35phmtCwet+NHCsJMIiqjbLbp/dBJK0mZtzuPxTD9aWvA80nIJVZ2+F8gDzyCwEtW+2MOVK8997FewmamNl4NyETTgOT/zTKsJ41v/oJNrJ24VqbX6uX8YGoJZXC3TeTFbngwgYgzH7PgFNCuoQmYWDFkonIU24bLotYptATFFdmmeykHkjJisfpjmSnnT4qdz6kTwfVZlilrXBb6QRVudcLPPAF7e3aFlL3o6eEh/gABuAcWzoJnTVRAZvzBxwozWPC6kdyaNy9/gDj9wn0JtvaQg6oF7WSL7fyCDQWw4VF8bCz+wjj7vGN+HKb+a4KhtZr2oQ3bJGs/d1iJ9ibKwx6f+V/ydJEEqHsW0zHEEXEThKU13wX0qEA6tendo1pvUQxyV6N2SeClpUnJTeaq91mSxH9UG7ml/Qu0v1RFuCz1Z7lLaPVy2g+eJtrSP/4Dn/mLMqU0/M=
+  
