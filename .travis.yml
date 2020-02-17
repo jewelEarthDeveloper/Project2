@@ -18,10 +18,6 @@ before_script:
 - npm --version
 - node_modules/.bin/newman --version
 script:
-- echo "docker user name"
-- echo $DOCKER_USER
-- echo "docker password"
-- echo $DOCKER_PASS
 - python -m unittest discover
 - docker build -t swagger-spring-example:1.0.0 .
 - docker run --name example_api -d -t -p 127.0.0.1:8080:8080 swagger-spring-example:1.0.0
@@ -31,12 +27,12 @@ script:
   fi; done
 - docker logs example_api
 - node_modules/.bin/newman run ./postmantests/postman_collection.json -e ./postmantests/postman_environment.json
-after_success:
-- docker login -u $DOCKER_USER -p $DOCKER_PASS
-- docker build paulspencer/lab2 -t
-- docker tag paulspencer/lab2 paulspencer/lab2
-- docker push paulspencer/lab2
 env:
   global:
   - secure: BHLQAfQEDFBRqAjsjtE7kjF4gzsw79/YeIeyZCb69C+s7uptnVHEVRsMoep8RpcVL4EL4SD6a/lT+/J9ou1NVBlJgvRGtqtNkyg2lcH5RxpZL8uBITAudGsMiyqMoW/CajMw0RhQWDvWlY75yrhGun6vvP5TQM/AZvJQWabV/vuqcn7CrbgXSaQsROMkfrkvxZhMPBjU9vH4VkqN4pZa3jOvtGDDx0HghLhKcFMGO8xvXWSucgnaKBdzgVAoThvHgSRejR7hc5GTIpPVQEK6rIqd5AZYDwuIoOsHhcRyiHMBoQO0IcvMuk5SuGAXkD9SZbJiCItUODD4eB5sxvihP+kXskSyl2eYH7p14Qk/avOHEphfxf3HD4TuCeKf4TqEwiWGF2KXdeFswQSNrsySPxIUKHc0tg9TtwnfaX2a3P6qHIzyI2sbyR7i21UlRshib/KB9ORrwUIXdvQ4gChVb3ajb/XnLt9EqF4loSNj7OyGo2E0O0AleC397VVB4/WSiK4CZQ/lRjvVmm7sLtyeUAzRQ+YTiozDF7mrARRDeeylKCSytdYyZMkv3hu9IDE20+3LLM9aOhA1kbCDk+a5cYxfCqDXpXX0F/I8M0tlWJsmxSN/U7ZXnLJ9zvfDzkHuEwHQao/fLhHPN9tuxXGKqK3xGrbUrx8AUOXe+KM+rb0=
   - secure: YKGtlvlFT37hFE9twUvvY9lFGuPT086pXRESmHek26TXp9QXNRbV4H+i1cNmui0i4yYrB1pWsvvlA2+k+lU1u2JhGIwePbsUQIrjd0lLm8Oz7X6n4hXb57VgVc044Kizm0BiiTzcKkReScjM3yqboOxjxCN+4c8LNJ9bPzv7t7g75xlcHfJNH2OPAyXwlnVsF1+w4ES0EP2e2LShJsBojcHNnSj7k+6ioFCgVZyXppXHowJHBsrFmE5Vk2PlXb13Paa5cqvN6PlW1AorODdM8AiqnRtd+6UUhsm/4iAZPydKg1F3nCVCAwW3nyLS0Q7naR0O/FaxKAu7aG2pv2KoeOjv3GXF5E2k0/bK5jgd5mVyzb03KMFrgpgmpyQSKCJKpiKpyVzFeGEUZdgW2b2GfpJnq7VYNQ1DxqwjeGD28V1vnPbZb9zZe0WBEVhxtp9T10j7CC/Bjtw9PL3L9+FYVfgm4N6aYeVhuvTO5efSCpA1HwEWe2QpUv2Yc7VuKFj+X/5P4exoNsTSpc5eqq1UWw8dJS3pllQzpUF2V6zdsNAvlPmRKDAQwRt3YI48H0wzhHstXGBsclm0Xl4sh7CPPXiP76Bez76mMhuvD3zV13VwJk/7tzFZUmUtiOuRzf+GHq7FjNc3pVlRFt0EJKXjHaKfj5GzObG2ME2mbChX1U8=
+after_success:
+  - docker login -u $DOCKER_USER -p $DOCKER_PASS
+  - docker build paulspencer/lab2 -t
+  - docker tag paulspencer/lab2 paulspencer/lab2
+  - docker push paulspencer/lab2
