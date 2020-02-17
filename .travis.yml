@@ -9,8 +9,8 @@ before_install:
   - docker info
 install:
     - npm install newman
-    - pip install -r ./python-flask-server-generated/python-flask-server/requirements.txt
-    - pip install -r ./python-flask-server-generated/python-flask-server/test-requirements.txt
+    - pip install -r requirements.txt
+    - pip install -r test-requirements.txt
     - pip install nose
     - pip install Flask-Testing
 before_script:
@@ -20,14 +20,14 @@ before_script:
     
 script:
 - python -m unittest discover
-- docker build -t ./python-flask-server-generated/python-flask-server/swagger-spring-example:1.0.0 .
+- docker build -t swagger-spring-example:1.0.0 .
 - docker run --name example_api -d -t -p 127.0.0.1:8080:8080 swagger-spring-example:1.0.0
 - docker ps
 - count=0 && until $(curl --output /dev/null --silent --head --fail http://localhost:8080);
   do printf '.' && sleep 3 && count=$((count+1)) && if [ $count -gt 5 ]; then break;
   fi; done
 - docker logs example_api
-- node_modules/.bin/newman run ./python-flask-server-generated/python-flask-server/postmantests/postman_collection.json -e ./python-flask-server-generated/python-flask-server/postmantests/postman_environment.json
+- node_modules/.bin/newman run ./postmantests/postman_collection.json -e ./postmantests/postman_environment.json
 
 after_success:
   - docker login -u $DOCKER_USER -p $DOCKER_PASS
